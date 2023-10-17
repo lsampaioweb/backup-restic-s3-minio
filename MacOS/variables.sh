@@ -12,3 +12,6 @@ export AWS_ACCESS_KEY_ID="$(security find-generic-password -s "edge-minio-01-res
 
 # The "Password" that Restic will use to connect to MinIO.
 export AWS_SECRET_ACCESS_KEY="$(security find-generic-password -s "edge-minio-01-restic-backup-secret-access-key" -w)"
+
+# The number of CPU cores to use. The default is "all".
+GOMAXPROCS=2
