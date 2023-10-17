@@ -1,0 +1,7 @@
+/Users/lsampaio/Desktop
+/Users/lsampaio/Documents
+/Users/lsampaio/Library/Keychains/login.keychain-db
+# /Users/lsampaio/Library/Application Support/MobileSync/Backup
+/Users/lsampaio/Music/Luciano
+/Users/lsampaio/Luciano
+/Users/lsampaio/Pictures
