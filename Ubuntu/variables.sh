@@ -20,4 +20,4 @@ export AWS_ACCESS_KEY_ID="$(secret-tool lookup password 'edge-minio-01-restic-ba
 export AWS_SECRET_ACCESS_KEY="$(secret-tool lookup password 'edge-minio-01-restic-backup-secret-access-key')"
 
 # The number of CPU cores to use. The default is "all".
-export GOMAXPROCS=2
+export GOMAXPROCS=1
