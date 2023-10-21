@@ -1,12 +1,12 @@
 # Restic Backup to MinIO S3 Bucket on Macbook Pro
 
-This guide explains how to use a Bash script to back up files from a Macbook Pro and an Ubuntu VM to an S3 Bucket hosted on MinIO using Restic. Restic is a fast, secure, and efficient backup program, and MinIO is a high-performance, distributed object storage server. This script automates the backup process.
+This guide explains how to use a Bash script to automate backups on a Macbook Pro and an Ubuntu VM, securely storing them in an S3 Bucket hosted on MinIO using Restic. Restic is a fast, secure, and efficient backup program, and MinIO is a high-performance, distributed object storage server.
 
 ## Prerequisites
 
 Before using the script, make sure you have the following prerequisites installed and configured:
 
-1. **Restic**: Install Restic on your machine. You can download it from the <a href="https://restic.net/" target="_blank">official website</a> or use any packet manager.
+1. **Restic**: Install Restic on your machine. You can download it from the [official website](https://restic.net/) or use any packet manager.
 
     ```bash
     # MacOS
@@ -16,10 +16,9 @@ Before using the script, make sure you have the following prerequisites installe
     apt install -y restic
     ```
 
-1. **MinIO Client (mc)**: Install MinIO Client (mc) to manage MinIO resources. You can download it from the <a href="https://min.io/download" target="_blank">MinIO website</a>. Configure `mc` with your MinIO server information.
+1. **MinIO Client (mc)**: Install MinIO Client (mc) to manage MinIO resources. You can download it from the [MinIO website](https://min.io/download). Configure `mc` with your MinIO server information.
 
-1. **Access Key and Secret Key**: You should have access to the MinIO S3 Bucket and obtain access and secret keys to configure `mc`. <a href="https://github.com/lsampaioweb/home-edge-minio/blob/main/02-Config/04%20-%20Policies/02%20-%20restic.txt" target="_blank">Create Access and Secret keys on MinIO</a>.
-
+1. **Access Key and Secret Key**: You should have access to the MinIO S3 Bucket and obtain access and secret keys to configure `mc`. [Create Access and Secret keys on MinIO](https://github.com/lsampaioweb/home-edge-minio/blob/main/02-Config/04%20-%20Policies/02%20-%20restic.txt).
 
 ## Configuration
 
@@ -33,49 +32,54 @@ Before using the script, make sure you have the following prerequisites installe
 
 1. Open the file (`Mac: MacOS/variables.sh` or `Ubuntu: Ubuntu/variables.sh`) in a text editor and customize the following variables of the script to match your configuration:
 
-- `restic_path`: Set the path where the Restic application is installed. You should replace `"/usr/local/bin/restic"` with the path in your OS.
+    - `restic_path`: Set the path where the Restic application is installed. Replace `"/usr/local/bin/restic"` with the path in your OS.
 
-- `minio_url`: Set the url of the MinIO server. You should replace `"s3:https://api.edge-minio-01.homelab/"` with the URL of your MinIO.
+    - `minio_url`: Set the URL of the MinIO server. Replace `"s3:https://api.edge-minio-01.homelab/"` with the URL of your MinIO.
 
-- `bucket_name`: Set the name of the S3 Bucket where your backups will be stored. You should replace `"macbook-luciano"` with the name of your MinIO S3 Bucket.
+    - `bucket_name`: Set the name of the S3 Bucket where your backups will be stored. Replace `"macbook-luciano"` with the name of your MinIO S3 Bucket.
 
-- `passwordCommand`: Specify the command to retrieve the password for the repository. You may customize this command to match how you store your repository password. More on the next section.
+    - `passwordCommand`: Specify the command to retrieve the password for the repository. Customize this command to match how you store your repository password. More in the next section.
 
-- `AWS_ACCESS_KEY_ID`: This variable is used to configure Restic with the access key for connecting to MinIO. You should replace `edge-minio-01-restic-backup-access-key-id` with the name you used on your Keychain.
+    - `AWS_ACCESS_KEY_ID`: This variable is used to configure Restic with the access key for connecting to MinIO. Replace `edge-minio-01-restic-backup-access-key-id` with the name you used on your Keychain.
 
-- `AWS_SECRET_ACCESS_KEY`: This variable is used to configure Restic with the secret access key for connecting to MinIO. Replace `edge-minio-01-restic-backup-secret-access-key` with the name you used on your Keychain.
+    - `AWS_SECRET_ACCESS_KEY`: This variable is used to configure Restic with the secret access key for connecting to MinIO. Replace `edge-minio-01-restic-backup-secret-access-key` with the name you used on your Keychain.
 
-- `GOMAXPROCS`: Set the number of CPU cores Restic should use. The default is `1`, but you can adjust it as needed based on your system's resources.
+    - `GOMAXPROCS`: Set the number of CPU cores Restic should use. The default is `1`, but you can adjust it as needed based on your system's resources.
 
-Customize these variables to match your specific MinIO and system configuration.
+    Customize these variables to match your specific MinIO and system configuration.
 
-## Save your passwords
+## Save Your Passwords
 
 To enhance security, it is advisable not to store passwords in plaintext files or environment variables. Instead, we will utilize the `Keychain` (security) for macOS and `Libsecret` (secret-tool) for Ubuntu to securely manage these credentials.
 
-1. MacOS.
-    ```bash
-    security add-generic-password -a $USER -U -s "edge-minio-01-restic-backup" -j "edge-minio-01-restic-backup" -w
+Use the commands below to create password entries, customizing them according to your needs:
 
-    security add-generic-password -a $USER -U -s "edge-minio-01-restic-backup-access-key-id" -j "edge-minio-01-restic-backup-access-key-id" -w
+**MacOS:**
 
-    security add-generic-password -a $USER -U -s "edge-minio-01-restic-backup-secret-access-key" -j "edge-minio-01-restic-backup-secret-access-key" -w
-    ```
+```bash
+security add-generic-password -a $USER -U -s "edge-minio-01-restic-backup" -j "edge-minio-01-restic-backup" -w
 
-2. Ubuntu:
-    ```bash
-    secret-tool store --label="edge-minio-01-restic-backup" password edge-minio-01-restic-backup
+security add-generic-password -a $USER -U -s "edge-minio-01-restic-backup-access-key-id" -j "edge-minio-01-restic-backup-access-key-id" -w
 
-    secret-tool store --label="edge-minio-01-restic-backup-access-key-id" password edge-minio-01-restic-backup-access-key-id
+security add-generic-password -a $USER -U -s "edge-minio-01-restic-backup-secret-access-key" -j "edge-minio-01-restic-backup-secret-access-key" -w
+```
 
-    secret-tool store --label="edge-minio-01-restic-backup-secret-access-key" password edge-minio-01-restic-backup-secret-access-key
-    ```
+**Ubuntu:**
+
+```bash
+secret-tool store --label="edge-minio-01-restic-backup" password edge-minio-01-restic-backup
+
+secret-tool store --label="edge-minio-01-restic-backup-access-key-id" password edge-minio-01-restic-backup-access-key-id
+
+secret-tool store --label="edge-minio-01-restic-backup-secret-access-key" password edge-minio-01-restic-backup-secret-access-key
+```
 
 ## Usage
 
 ### 1. Init
 
 The `init` script initializes the Restic repository. You only need to run this script once for each repository you create. To initialize the repository, execute the following command:
+
 ```bash
 ./init.sh
 ```
@@ -83,17 +87,19 @@ The `init` script initializes the Restic repository. You only need to run this s
 ### 2. Backup
 
 The `backup` script is used to create a backup snapshot of your specified source directory. You can run this script to regularly back up your data. Execute the following command to create a backup:
+
 ```bash
 ./backup.sh
 ```
 
-## Automating Backups with launchd or Cron
+## Automating Backups with `launchd` or `Cron`
 
-You can automate your backups by scheduling the backup script to run at specific intervals using the `launchd` or `cron` service. This ensures that your files are regularly backed up without manual intervention. To set up a job to run the backup script every hour, follow these steps:
+You can automate your backups by scheduling the backup script to run at specific intervals using the `launchd` or `Cron` service. This ensures that your files are regularly backed up without manual intervention. To set up a job to run the backup script every hour, follow these steps:
 
-## MacOS
+**MacOS:**
 
-1. Edit the MacOS/restic-backup.plist file if you want to run the backup more or less frequently.
+1. Edit the `MacOS/restic-backup.plist` file if you want to run the backup more or less frequently:
+
     ```bash
     <key>StartInterval</key>
     # 3600 seconds = 1 hour
@@ -107,16 +113,19 @@ You can automate your backups by scheduling the backup script to run at specific
     ```
 
 1. Load the Launch Agent:
+
     ```bash
     launchctl load ~/Library/LaunchAgents/restic-backup.plist
     ```
 
 1. Start the Job:
+
     ```bash
     launchctl start restic-backup
     ```
 
-## Ubuntu
+**Ubuntu:**
+
 1. Open your terminal.
 
 1. Edit your user's crontab by running the following command:
@@ -142,8 +151,6 @@ You can automate your backups by scheduling the backup script to run at specific
    - `*` in the fourth position represents the month (1-12).
    - `*` in the fifth position represents the day of the week (0-6, where both 0 and 6 represent Sunday).
 
-   This configuration runs the script at the beginning of every hour.
-
 1. Save and exit the text editor. The cron job is now set up.
 
 1. The cron service will automatically run your backup script every hour.
@@ -159,6 +166,7 @@ This repository includes a set of other Bash scripts as well. Each script is des
 ### 1. Check
 
 The `check` script verifies the integrity of the Restic repository, ensuring that your backups are healthy and free from corruption. Use this script to perform repository checks. Run the following command to check your repository:
+
 ```bash
 ./check.sh
 ```
@@ -166,12 +174,15 @@ The `check` script verifies the integrity of the Restic repository, ensuring tha
 ### 2. Snapshots
 
 The `snapshots` script provides a list of all available snapshots in your Restic repository. It allows you to view and manage your snapshots easily. To list your snapshots, use the following command:
+
 ```bash
 ./snapshots.sh
 ```
+
 ### 3. Forget
 
 The `forget` script is used to manage retention policies for your snapshots. You can use it to remove old snapshots and save storage space. To manage snapshots retention, execute the following command:
+
 ```bash
 ./forget.sh
 ```
