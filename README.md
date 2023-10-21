@@ -64,15 +64,15 @@ You can automate your backups by scheduling the backup script to run at specific
 
 1. Open your terminal.
 
-2. Edit your user's crontab by running the following command:
+1. Edit your user's crontab by running the following command:
 
     ```bash
     crontab -e
     ```
 
-3. This will open the crontab configuration in the default text editor. If prompted, choose your preferred text editor (e.g., nano, vim, or another).
+1. This will open the crontab configuration in the default text editor. If prompted, choose your preferred text editor (e.g., nano, vim, or another).
 
-4. Add the following line to the crontab file to run the backup script every hour:
+1. Add the following line to the crontab file to run the backup script every hour:
 
     ```bash
     # Run the backup every hour.
@@ -89,9 +89,9 @@ You can automate your backups by scheduling the backup script to run at specific
 
    This configuration runs the script at the beginning of every hour.
 
-5. Save and exit the text editor. The cron job is now set up.
+1. Save and exit the text editor. The cron job is now set up.
 
-6. The cron service will automatically run your backup script every hour.
+1. The cron service will automatically run your backup script every hour.
 
 **Note**: Ensure that the script has execute permissions, as mentioned in the previous sections of this README.
 
