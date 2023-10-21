@@ -1,12 +1,12 @@
 # Restic Backup to MinIO S3 Bucket on Macbook Pro
 
-This guide explains how to use a Bash script to back up files from a Macbook Pro to an S3 Bucket hosted on MinIO using Restic. Restic is a fast, secure, and efficient backup program, and MinIO is a high-performance, distributed object storage server. This script automates the backup process.
+This guide explains how to use a Bash script to back up files from a Macbook Pro and an Ubuntu VM to an S3 Bucket hosted on MinIO using Restic. Restic is a fast, secure, and efficient backup program, and MinIO is a high-performance, distributed object storage server. This script automates the backup process.
 
 ## Prerequisites
 
 Before using the script, make sure you have the following prerequisites installed and configured:
 
-1. **Restic**: Install Restic on your Macbook Pro. You can download it from the [official website](https://restic.net/) or use any packet manager.
+1. **Restic**: Install Restic on your machine. You can download it from the <a href="https://restic.net/" target="_blank">official website</a> or use any packet manager.
 
     ```bash
     # MacOS
@@ -16,9 +16,10 @@ Before using the script, make sure you have the following prerequisites installe
     apt install -y restic
     ```
 
-1. **MinIO Client (mc)**: Install MinIO Client (mc) to manage MinIO resources. You can download it from the [MinIO website](https://min.io/download). Configure `mc` with your MinIO server information.
+1. **MinIO Client (mc)**: Install MinIO Client (mc) to manage MinIO resources. You can download it from the <a href="https://min.io/download" target="_blank">MinIO website</a>. Configure `mc` with your MinIO server information.
 
-1. **Access Key and Secret Key**: You should have access to the MinIO S3 Bucket and obtain access and secret keys to configure `mc`.
+1. **Access Key and Secret Key**: You should have access to the MinIO S3 Bucket and obtain access and secret keys to configure `mc`. <a href="https://github.com/lsampaioweb/home-edge-minio/blob/main/02-Config/04%20-%20Policies/02%20-%20restic.txt" target="_blank">Create Access and Secret keys on MinIO</a>.
+
 
 ## Configuration
 
