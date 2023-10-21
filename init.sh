@@ -10,7 +10,7 @@ set -e # Abort if there is an issue with any build.
 init() {
   echo "Initializing the backup of $1"
 
-  restic --repo "$1" init --password-command="$passwordCommand"
+  $restic_path --repo "$1" init --password-command="$passwordCommand"
 
   echo -e
 }

@@ -7,14 +7,8 @@ if test -z "$DBUS_SESSION_BUS_ADDRESS" ; then
   export DBUS_SESSION_BUS_ADDRESS=$DBUS
 fi
 
-# The URL of MinIO.
-minio_url="s3:https://api.edge-minio-01.homelab/"
-
-# The name of the Bucket.
-bucket_name="macbook-luciano"
-
-# The address of the Bucket.
-repository="$minio_url$bucket_name"
+# The path where the Restic application is installed.
+restic_path="/usr/local/bin/restic"
 
 # The password of the repository.
 passwordCommand="secret-tool lookup password 'edge-minio-01-restic-backup'"
@@ -25,5 +19,3 @@ export AWS_ACCESS_KEY_ID="$(secret-tool lookup password 'edge-minio-01-restic-ba
 # The "Password" that Restic will use to connect to MinIO.
 export AWS_SECRET_ACCESS_KEY="$(secret-tool lookup password 'edge-minio-01-restic-backup-secret-access-key')"
 
-# The number of CPU cores to use. The default is "all".
-export GOMAXPROCS=1

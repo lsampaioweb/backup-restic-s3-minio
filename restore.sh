@@ -16,7 +16,7 @@ target="/tmp/$USER/Backup"
 restore() {
   echo "Starting the restore of $1 at $3"
 
-  restic --repo "$1" --verbose restore "$2" --target "$3" --password-command="$passwordCommand"
+  $restic_path --repo "$1" --verbose restore "$2" --target "$3" --password-command="$passwordCommand"
 
   echo -e
 }

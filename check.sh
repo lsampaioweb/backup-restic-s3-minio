@@ -10,7 +10,7 @@ set -e # Abort if there is an issue with any build.
 check() {
   echo "Starting the check of integrity of $1"
 
-  restic --repo "$1" check --password-command="$passwordCommand"
+  $restic_path --repo "$1" check --password-command="$passwordCommand"
 
   echo -e
 }

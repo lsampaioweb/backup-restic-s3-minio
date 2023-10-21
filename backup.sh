@@ -10,7 +10,7 @@ set -e # Abort if there is an issue with any build.
 backup() {
   echo "Starting the backup of $1"
 
-  restic --repo "$1" backup --verbose --tag "$2" --files-from="Files/includes.txt" --exclude-file="Files/excludes.txt" --password-command="$passwordCommand"
+  $restic_path --repo "$1" backup --verbose --tag "$2" --files-from="$files_from" --exclude-file="$exclude_file" --password-command="$passwordCommand"
 
   echo -e
 }

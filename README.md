@@ -6,10 +6,14 @@ This guide explains how to use a Bash script to back up files from a Macbook Pro
 
 Before using the script, make sure you have the following prerequisites installed and configured:
 
-1. **Restic**: Install Restic on your Macbook Pro. You can download it from the [official website](https://restic.net/) or use HomeBrew.
+1. **Restic**: Install Restic on your Macbook Pro. You can download it from the [official website](https://restic.net/) or use any packet manager.
 
     ```bash
+    # MacOS
     brew install restic
+
+    # Ubuntu
+    apt install -y restic
     ```
 
 1. **MinIO Client (mc)**: Install MinIO Client (mc) to manage MinIO resources. You can download it from the [MinIO website](https://min.io/download). Configure `mc` with your MinIO server information.
@@ -23,16 +27,18 @@ Before using the script, make sure you have the following prerequisites installe
 1. Make the script executable:
 
     ```bash
-    chmod +x restic-backup.sh
+    chmod u+x restic-backup.sh
     ```
 
-1. Open the variables file (`Mac: MacOS/variables.sh` or `Ubuntu: Ubuntu/variables.sh`) in a text editor and customize the following variables of the script to match your configuration:
+1. Open the file (`Mac: MacOS/variables.sh` or `Ubuntu: Ubuntu/variables.sh`) in a text editor and customize the following variables of the script to match your configuration:
+
+- `restic_path`: Set the path where the Restic application is installed. You should replace `"/usr/local/bin/restic"` with the path in your OS.
 
 - `minio_url`: Set the url of the MinIO server. You should replace `"s3:https://api.edge-minio-01.homelab/"` with the URL of your MinIO.
 
 - `bucket_name`: Set the name of the S3 Bucket where your backups will be stored. You should replace `"macbook-luciano"` with the name of your MinIO S3 Bucket.
 
-- `passwordCommand`: Specify the command to retrieve the password for the repository. In the provided code, it uses macOS's `security` command to retrieve the password from the system's keychain. You may customize this command to match how you store your repository password.
+- `passwordCommand`: Specify the command to retrieve the password for the repository. You may customize this command to match how you store your repository password. More on the next section.
 
 - `AWS_ACCESS_KEY_ID`: This variable is used to configure Restic with the access key for connecting to MinIO. You should replace `edge-minio-01-restic-backup-access-key-id` with the name you used on your Keychain.
 
@@ -41,6 +47,28 @@ Before using the script, make sure you have the following prerequisites installe
 - `GOMAXPROCS`: Set the number of CPU cores Restic should use. The default is `1`, but you can adjust it as needed based on your system's resources.
 
 Customize these variables to match your specific MinIO and system configuration.
+
+## Save your passwords
+
+To enhance security, it is advisable not to store passwords in plaintext files or environment variables. Instead, we will utilize the `Keychain` (security) for macOS and `Libsecret` (secret-tool) for Ubuntu to securely manage these credentials.
+
+1. MacOS.
+    ```bash
+    security add-generic-password -a $USER -U -s "edge-minio-01-restic-backup" -j "edge-minio-01-restic-backup" -w
+
+    security add-generic-password -a $USER -U -s "edge-minio-01-restic-backup-access-key-id" -j "edge-minio-01-restic-backup-access-key-id" -w
+
+    security add-generic-password -a $USER -U -s "edge-minio-01-restic-backup-secret-access-key" -j "edge-minio-01-restic-backup-secret-access-key" -w
+    ```
+
+2. Ubuntu:
+    ```bash
+    secret-tool store --label="edge-minio-01-restic-backup" password edge-minio-01-restic-backup
+
+    secret-tool store --label="edge-minio-01-restic-backup-access-key-id" password edge-minio-01-restic-backup-access-key-id
+
+    secret-tool store --label="edge-minio-01-restic-backup-secret-access-key" password edge-minio-01-restic-backup-secret-access-key
+    ```
 
 ## Usage
 
@@ -58,10 +86,36 @@ The `backup` script is used to create a backup snapshot of your specified source
 ./backup.sh
 ```
 
-## Automating Backups with Cron
+## Automating Backups with launchd or Cron
 
-You can automate your backups by scheduling the backup script to run at specific intervals using the `cron` service. This ensures that your files are regularly backed up without manual intervention. To set up a cron job to run the backup script every hour, follow these steps:
+You can automate your backups by scheduling the backup script to run at specific intervals using the `launchd` or `cron` service. This ensures that your files are regularly backed up without manual intervention. To set up a cron job to run the backup script every hour, follow these steps:
 
+## MacOS
+
+1. Edit the MacOS/restic-backup.plist file if you want to run the backup more or less frequently.
+    ```bash
+    <key>StartInterval</key>
+    # 3600 seconds = 1 hour
+    <integer>3600</integer>
+    ```
+
+1. Copy the Property List File to the correct path:
+
+    ```bash
+    cp MacOS/restic-backup.plist ~/Library/LaunchAgents/restic-backup.plist
+    ```
+
+1. Load the Launch Agent:
+    ```bash
+    launchctl load ~/Library/LaunchAgents/restic-backup.plist
+    ```
+
+1. Start the Job:
+    ```bash
+    launchctl start restic-backup
+    ```
+
+## Ubuntu
 1. Open your terminal.
 
 1. Edit your user's crontab by running the following command:
