@@ -89,7 +89,7 @@ The `backup` script is used to create a backup snapshot of your specified source
 
 ## Automating Backups with launchd or Cron
 
-You can automate your backups by scheduling the backup script to run at specific intervals using the `launchd` or `cron` service. This ensures that your files are regularly backed up without manual intervention. To set up a cron job to run the backup script every hour, follow these steps:
+You can automate your backups by scheduling the backup script to run at specific intervals using the `launchd` or `cron` service. This ensures that your files are regularly backed up without manual intervention. To set up a job to run the backup script every hour, follow these steps:
 
 ## MacOS
 
