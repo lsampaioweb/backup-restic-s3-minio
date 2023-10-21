@@ -1,8 +1,14 @@
 #!/bin/bash
 set -e # Abort if there is an issue with any build.
 
+# The URL of MinIO.
+minio_url="s3:https://api.edge-minio-01.homelab/"
+
+# The name of the Bucket.
+bucket_name="macbook-luciano"
+
 # The address of the Bucket.
-repository="s3:https://api.edge-minio-01.homelab/macbook-luciano"
+repository="$minio_url$bucket_name"
 
 # The password of the repository.
 passwordCommand="security find-generic-password -s "edge-minio-01-restic-backup" -w"

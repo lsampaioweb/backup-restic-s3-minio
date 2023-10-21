@@ -7,8 +7,14 @@ if test -z "$DBUS_SESSION_BUS_ADDRESS" ; then
   export DBUS_SESSION_BUS_ADDRESS=$DBUS
 fi
 
+# The URL of MinIO.
+minio_url="s3:https://api.edge-minio-01.homelab/"
+
+# The name of the Bucket.
+bucket_name="macbook-luciano"
+
 # The address of the Bucket.
-repository="s3:https://api.edge-minio-01.homelab/macbook-luciano"
+repository="$minio_url$bucket_name"
 
 # The password of the repository.
 passwordCommand="secret-tool lookup password 'edge-minio-01-restic-backup'"

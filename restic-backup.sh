@@ -2,7 +2,7 @@
 set -e # Abort if there is an issue with any build.
 
 # Usage:
-# ./daily.sh
+# ./restic-backup.sh
 
 ./backup.sh
 ./forget.sh
