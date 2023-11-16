@@ -57,16 +57,21 @@ Use the commands below to create password entries, customizing them according to
 **MacOS:**
 
 ```bash
+# Minio
 security add-generic-password -a $USER -U -s "edge-minio-01-restic-backup" -j "edge-minio-01-restic-backup" -w
 
 security add-generic-password -a $USER -U -s "edge-minio-01-restic-backup-access-key-id" -j "edge-minio-01-restic-backup-access-key-id" -w
 
 security add-generic-password -a $USER -U -s "edge-minio-01-restic-backup-secret-access-key" -j "edge-minio-01-restic-backup-secret-access-key" -w
+
+# Local
+security add-generic-password -a $USER -U -s "restic-backup-macos-local" -j "restic-backup-macos-local" -w
 ```
 
 **Ubuntu:**
 
 ```bash
+# Minio
 secret-tool store --label="edge-minio-01-restic-backup" password edge-minio-01-restic-backup
 
 secret-tool store --label="edge-minio-01-restic-backup-access-key-id" password edge-minio-01-restic-backup-access-key-id
@@ -82,6 +87,8 @@ The `init` script initializes the Restic repository. You only need to run this s
 
 ```bash
 ./init.sh
+./init.sh local
+./init.sh minio
 ```
 
 ### 2. Backup
@@ -90,6 +97,8 @@ The `backup` script is used to create a backup snapshot of your specified source
 
 ```bash
 ./backup.sh
+./backup.sh local
+./backup.sh minio
 ```
 
 ## Automating Backups with `launchd` or `Cron`
@@ -98,7 +107,7 @@ You can automate your backups by scheduling the backup script to run at specific
 
 **MacOS:**
 
-1. Edit the `MacOS/restic-backup.plist` file if you want to run the backup more or less frequently:
+1. Edit the `MacOS/restic-backup-[local|minio].plist` file if you want to run the backup more or less frequently:
 
     ```bash
     <key>StartInterval</key>
@@ -109,19 +118,22 @@ You can automate your backups by scheduling the backup script to run at specific
 1. Copy the Property List File to the correct path:
 
     ```bash
-    cp MacOS/restic-backup.plist ~/Library/LaunchAgents/restic-backup.plist
+    cp MacOS/restic-backup-local.plist ~/Library/LaunchAgents/restic-backup-local.plist
+    cp MacOS/restic-backup-minio.plist ~/Library/LaunchAgents/restic-backup-minio.plist
     ```
 
 1. Load the Launch Agent:
 
     ```bash
-    launchctl load ~/Library/LaunchAgents/restic-backup.plist
+    launchctl load ~/Library/LaunchAgents/restic-backup-local.plist
+    launchctl load ~/Library/LaunchAgents/restic-backup-minio.plist
     ```
 
 1. Start the Job:
 
     ```bash
-    launchctl start restic-backup
+    launchctl start restic-backup-local
+    launchctl start restic-backup-minio
     ```
 
 **Ubuntu:**
@@ -169,6 +181,8 @@ The `check` script verifies the integrity of the Restic repository, ensuring tha
 
 ```bash
 ./check.sh
+./check.sh local
+./check.sh minio
 ```
 
 ### 2. Snapshots
@@ -177,6 +191,8 @@ The `snapshots` script provides a list of all available snapshots in your Restic
 
 ```bash
 ./snapshots.sh
+./snapshots.sh local
+./snapshots.sh minio
 ```
 
 ### 3. Forget
@@ -185,6 +201,8 @@ The `forget` script is used to manage retention policies for your snapshots. You
 
 ```bash
 ./forget.sh
+./forget.sh local
+./forget.sh minio
 ```
 
 These scripts provide a convenient way to interact with Restic and manage your backup processes. Customize and use them according to your specific backup needs.

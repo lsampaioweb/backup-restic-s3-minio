@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>restic-backup-minio</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Users/lsampaio/Luciano/git/home/backup-restic-s3-minio/restic-backup.sh</string>
+        <string>minio</string>
+    </array>
+    <key>StandardOutPath</key>
+    <string>/Users/lsampaio/Luciano/git/home/backup-restic-s3-minio/logs/backup-minio.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/lsampaio/Luciano/git/home/backup-restic-s3-minio/logs/backup-minio.log</string>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>StartInterval</key>
+    <integer>3600</integer> <!-- 3600 seconds = 1 hour -->
+</dict>
+</plist>

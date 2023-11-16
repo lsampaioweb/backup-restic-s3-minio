@@ -5,7 +5,7 @@ set -e # Abort if there is an issue with any build.
 # ./init.sh
 
 # Load the file with the common variables.
-. $(dirname "$0")/variables.sh
+. $(dirname "$0")/variables/main.sh
 
 init() {
   echo "Initializing the backup of $1"

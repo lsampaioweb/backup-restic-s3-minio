@@ -7,6 +7,16 @@ if test -z "$DBUS_SESSION_BUS_ADDRESS" ; then
   export DBUS_SESSION_BUS_ADDRESS=$DBUS
 fi
 
+# Variables with the same content for MacOS and Ubuntu.
+# The URL of MinIO.
+minio_url="s3:https://api.edge-minio-01.homelab/"
+
+# The name of the Bucket.
+bucket_name="ubuntu-desktop"
+
+# The address of the Bucket.
+repository="$minio_url$bucket_name"
+
 # The path where the Restic application is installed.
 restic_path="/usr/local/bin/restic"
 

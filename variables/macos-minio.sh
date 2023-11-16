@@ -1,6 +1,16 @@
 #!/bin/bash
 set -e # Abort if there is an issue with any build.
 
+# Variables with the same content for MacOS and Ubuntu.
+# The URL of MinIO.
+minio_url="s3:https://api.edge-minio-01.homelab/"
+
+# The name of the Bucket.
+bucket_name="macbook-luciano"
+
+# The address of the Bucket.
+repository="$minio_url$bucket_name"
+
 # The path where the Restic application is installed.
 restic_path="/usr/local/bin/restic"
 
