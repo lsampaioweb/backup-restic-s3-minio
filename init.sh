@@ -3,6 +3,8 @@ set -e # Abort if there is an issue with any build.
 
 # Usage:
 # ./init.sh
+# ./init.sh local
+# ./init.sh minio
 
 # Load the file with the common variables.
 . $(dirname "$0")/variables/main.sh

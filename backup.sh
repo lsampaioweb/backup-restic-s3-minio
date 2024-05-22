@@ -3,6 +3,8 @@ set -e # Abort if there is an issue with any build.
 
 # Usage:
 # ./backup.sh
+# ./backup.sh local
+# ./backup.sh minio
 
 # Load the file with the common variables.
 . $(dirname "$0")/variables/main.sh

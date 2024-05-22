@@ -170,7 +170,7 @@ You can automate your backups by scheduling the backup script to run at specific
 
     ```bash
     # Run the backup every hour.
-    0 * * * * /path/to/restic-backup.sh >> /path/to/backup.log 2>&1
+    0 * * * * /path/to/restic-backup.sh local >> /path/to/backup.log 2>&1
     ```
 
    Make sure to replace `/path/to/restic-backup.sh` with the actual path to your backup script.
@@ -221,6 +221,16 @@ The `forget` script is used to manage retention policies for your snapshots. You
 ./forget.sh
 ./forget.sh local
 ./forget.sh minio
+```
+
+### 4. Restore
+
+The `restore` script is used to recover files and directories from a backup repository. You can use it to restore specific snapshots or specific files and directories within a snapshot. To perform a restore, execute the following command:
+
+```bash
+./restore.sh
+./restore.sh local
+./restore.sh minio
 ```
 
 These scripts provide a convenient way to interact with Restic and manage your backup processes. Customize and use them according to your specific backup needs.

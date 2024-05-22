@@ -3,6 +3,8 @@ set -e # Abort if there is an issue with any build.
 
 # Usage:
 # ./forget.sh
+# ./forget.sh local
+# ./forget.sh minio
 
 # Load the file with the common variables.
 . $(dirname "$0")/variables/main.sh
