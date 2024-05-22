@@ -154,6 +154,20 @@ You can automate your backups by scheduling the backup script to run at specific
     launchctl start restic-backup-minio
     ```
 
+1. Unload the Launch Agent:
+
+    ```bash
+    launchctl unload ~/Library/LaunchAgents/restic-backup-local.plist
+    launchctl unload ~/Library/LaunchAgents/restic-backup-minio.plist
+    ```
+
+1. Stop the Job:
+
+    ```bash
+    launchctl stop restic-backup-local
+    launchctl stop restic-backup-minio
+    ```
+
 **Ubuntu:**
 
 1. Open your terminal.
