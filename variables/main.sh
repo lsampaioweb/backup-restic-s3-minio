@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e # Abort if there is an issue with any build.
 
+# If true, more information will be printed in the output.
+DEBUG=false
+
 # The number of CPU cores to use. The default is "all".
 export GOMAXPROCS=1
 

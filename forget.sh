@@ -7,10 +7,11 @@ set -e # Abort if there is an issue with any build.
 # ./forget.sh minio
 
 # Load the file with the common variables.
+. $(dirname "$0")/lib/log.sh
 . $(dirname "$0")/variables/main.sh
 
 forget() {
-  echo "Starting the clean up of $1"
+  logInfo "Starting the clean up of $1"
 
   $restic_path --repo "$1" forget --keep-monthly $keep_monthly --keep-weekly $keep_weekly --keep-daily $keep_daily --keep-hourly $keep_hourly --password-command="$passwordCommand"
 
