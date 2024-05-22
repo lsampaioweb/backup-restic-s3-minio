@@ -11,9 +11,6 @@ bucket_name="macbook-luciano"
 # The address of the Bucket.
 repository="${minio_url}${bucket_name}"
 
-# The path where the Restic application is installed.
-restic_path="/usr/local/bin/restic"
-
 # The password of the repository.
 passwordCommand="/usr/bin/security find-generic-password -a $USER -s 'edge-minio-01-restic-backup' -w"
 

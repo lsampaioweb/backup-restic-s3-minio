@@ -5,13 +5,16 @@ set -e # Abort if there is an issue with any build.
 export GOMAXPROCS=1
 
 # The file that contains the folders to include in the backup.
-files_from=$(dirname "$0")/Files/includes.txt
+files_from=$(dirname "$0")/files/includes.txt
 
 # The file that contains the folders to exclude from the backup.
-exclude_file=$(dirname "$0")/Files/excludes.txt
+exclude_file=$(dirname "$0")/files/excludes.txt
 
 # Get the current running OS.
 operating_system=$(uname -o)
+
+# The path where the Restic application is installed.
+restic_path="$(which restic)"
 
 # The type of the backup (local or minio). Default: minio
 repository_type=${1:-"minio"}
