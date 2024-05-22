@@ -16,6 +16,18 @@ operating_system=$(uname -o)
 # The type of the backup (local or minio). Default: minio
 repository_type=${1:-"minio"}
 
+# The last n months which have one or more snapshots, keep only the most recent one for each month.
+keep_monthly=24
+
+# The last n weeks which have one or more snapshots, keep only the most recent one for each week.
+keep_weekly=5
+
+# The last n days which have one or more snapshots, keep only the most recent one for each day.
+keep_daily=15
+
+# The last n hours which have one or more snapshots, keep only the most recent one for each hour.
+keep_hourly=16
+
 # Variables with specific content for MacOS or Ubuntu.
 if [ $operating_system == "Darwin" ]; then
   . $(dirname "$0")/variables/macos-$repository_type.sh

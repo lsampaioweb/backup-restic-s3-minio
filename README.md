@@ -1,6 +1,6 @@
-# Restic Backup to MinIO S3 Bucket on Macbook Pro
+# Restic Backup to MinIO S3 Bucket on Macbook Pro or Ubuntu.
 
-This guide explains how to use a Bash script to automate backups on a Macbook Pro and an Ubuntu VM, securely storing them in an S3 Bucket hosted on MinIO using Restic. Restic is a fast, secure, and efficient backup program, and MinIO is a high-performance, distributed object storage server.
+This guide explains how to use a Bash script to automate backups on a Macbook Pro and an Ubuntu, securely storing them in an S3 Bucket hosted on MinIO using Restic. Restic is a fast, secure, and efficient backup program, and MinIO is a high-performance, distributed object storage server.
 
 ## Prerequisites
 
@@ -8,17 +8,20 @@ Before using the script, make sure you have the following prerequisites installe
 
 1. **Restic**: Install Restic on your machine. You can download it from the [official website](https://restic.net/) or use any packet manager.
 
+    - MacOS
     ```bash
-    # MacOS
     brew install restic
+    ```
 
-    # Ubuntu
+    - Ubuntu
+    ```bash
     apt install -y restic
     ```
 
 1. **MinIO Client (mc)**: Install MinIO Client (mc) to manage MinIO resources. You can download it from the [MinIO website](https://min.io/download). Configure `mc` with your MinIO server information.
 
-1. **Access Key and Secret Key**: You should have access to the MinIO S3 Bucket and obtain access and secret keys to configure `mc`. [Create Access and Secret keys on MinIO](https://github.com/lsampaioweb/home-edge-minio/blob/main/02-Config/04%20-%20Policies/02%20-%20restic.txt).
+1. **Access Key and Secret Key**: You should have access to the MinIO S3 Bucket and obtain access and secret keys to configure `mc`.
+    - [Create Access and Secret keys on MinIO](https://github.com/lsampaioweb/home-edge-minio/blob/main/02-Config/04%20-%20Policies/02%20-%20restic.txt).
 
 ## Configuration
 
@@ -32,19 +35,26 @@ Before using the script, make sure you have the following prerequisites installe
 
 1. Open the file (`Mac: MacOS/variables.sh` or `Ubuntu: Ubuntu/variables.sh`) in a text editor and customize the following variables of the script to match your configuration:
 
-    - `restic_path`: Set the path where the Restic application is installed. Replace `"/usr/local/bin/restic"` with the path in your OS.
+    - `restic_path`: Set the path where the Restic application is installed.
+        - Replace `"/usr/local/bin/restic"` with the path in your OS.
 
-    - `minio_url`: Set the URL of the MinIO server. Replace `"s3:https://api.edge-minio-01.homelab/"` with the URL of your MinIO.
+    - `minio_url`: Set the URL of the MinIO server.
+        - Replace `"s3:https://api.edge-minio-01.homelab/"` with the URL of your MinIO.
 
-    - `bucket_name`: Set the name of the S3 Bucket where your backups will be stored. Replace `"macbook-luciano"` with the name of your MinIO S3 Bucket.
+    - `bucket_name`: Set the name of the S3 Bucket where your backups will be stored.
+        - Replace `"macbook-luciano"` with the name of your MinIO S3 Bucket.
 
-    - `passwordCommand`: Specify the command to retrieve the password for the repository. Customize this command to match how you store your repository password. More in the next section.
+    - `passwordCommand`: Specify the command to retrieve the password for the repository.
+        - Customize this command to match how you store your repository password. More in the next section.
 
-    - `AWS_ACCESS_KEY_ID`: This variable is used to configure Restic with the access key for connecting to MinIO. Replace `edge-minio-01-restic-backup-access-key-id` with the name you used on your Keychain.
+    - `AWS_ACCESS_KEY_ID`: This variable is used to configure Restic with the access key for connecting to MinIO.
+        - Replace `edge-minio-01-restic-backup-access-key-id` with the name you used on your Keychain.
 
-    - `AWS_SECRET_ACCESS_KEY`: This variable is used to configure Restic with the secret access key for connecting to MinIO. Replace `edge-minio-01-restic-backup-secret-access-key` with the name you used on your Keychain.
+    - `AWS_SECRET_ACCESS_KEY`: This variable is used to configure Restic with the secret access key for connecting to MinIO.
+        - Replace `edge-minio-01-restic-backup-secret-access-key` with the name you used on your Keychain.
 
-    - `GOMAXPROCS`: Set the number of CPU cores Restic should use. The default is `1`, but you can adjust it as needed based on your system's resources.
+    - `GOMAXPROCS`: Set the number of CPU cores Restic should use.
+        - The default is `1`, but you can adjust it as needed based on your system's resources.
 
     Customize these variables to match your specific MinIO and system configuration.
 
@@ -56,28 +66,36 @@ Use the commands below to create password entries, customizing them according to
 
 **MacOS:**
 
-```bash
-# Minio
-security add-generic-password -a $USER -U -s "edge-minio-01-restic-backup" -j "edge-minio-01-restic-backup" -w
+- Minio
 
-security add-generic-password -a $USER -U -s "edge-minio-01-restic-backup-access-key-id" -j "edge-minio-01-restic-backup-access-key-id" -w
+    ```bash
+    security add-generic-password -a $USER -U -s "edge-minio-01-restic-backup" -j "edge-minio-01-restic-backup" -w
 
-security add-generic-password -a $USER -U -s "edge-minio-01-restic-backup-secret-access-key" -j "edge-minio-01-restic-backup-secret-access-key" -w
+    security add-generic-password -a $USER -U -s "edge-minio-01-restic-backup-access-key-id" -j "edge-minio-01-restic-backup-access-key-id" -w
 
-# Local
-security add-generic-password -a $USER -U -s "restic-backup-macos-local" -j "restic-backup-macos-local" -w
-```
+    security add-generic-password -a $USER -U -s "edge-minio-01-restic-backup-secret-access-key" -j "edge-minio-01-restic-backup-secret-access-key" -w
+    ```
+
+- Local
+    ```bash
+    security add-generic-password -a $USER -U -s "restic-backup-macos-local" -j "restic-backup-macos-local" -w
+    ```
 
 **Ubuntu:**
 
-```bash
-# Minio
-secret-tool store --label="edge-minio-01-restic-backup" password edge-minio-01-restic-backup
+- Minio
+    ```bash
+    secret-tool store --label="edge-minio-01-restic-backup" password edge-minio-01-restic-backup
 
-secret-tool store --label="edge-minio-01-restic-backup-access-key-id" password edge-minio-01-restic-backup-access-key-id
+    secret-tool store --label="edge-minio-01-restic-backup-access-key-id" password edge-minio-01-restic-backup-access-key-id
 
-secret-tool store --label="edge-minio-01-restic-backup-secret-access-key" password edge-minio-01-restic-backup-secret-access-key
-```
+    secret-tool store --label="edge-minio-01-restic-backup-secret-access-key" password edge-minio-01-restic-backup-secret-access-key
+    ```
+
+- Local
+    ```bash
+    secret-tool store --label="restic-password" password restic-password
+    ```
 
 ## Usage
 

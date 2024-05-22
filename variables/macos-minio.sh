@@ -9,7 +9,7 @@ minio_url="s3:https://api.edge-minio-01.homelab/"
 bucket_name="macbook-luciano"
 
 # The address of the Bucket.
-repository="$minio_url$bucket_name"
+repository="${minio_url}${bucket_name}"
 
 # The path where the Restic application is installed.
 restic_path="/usr/local/bin/restic"
