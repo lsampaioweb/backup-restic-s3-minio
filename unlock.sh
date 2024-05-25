@@ -11,11 +11,11 @@ set -e # Abort if there is an issue with any build.
 . $(dirname "$0")/variables/main.sh
 
 check() {
-  logInfo "Starting the unlock of $1"
+  logInfo "Starting the unlock of $1."
 
   $restic_path --repo "$1" unlock --password-command="$passwordCommand"
 
-  echo -e
+  logInfo "Unlock finished."
 }
 
 check $repository

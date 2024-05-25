@@ -16,11 +16,11 @@ snapshotId=${2:-"latest"}
 target=${3:-"/tmp/$USER/backup"}
 
 restore() {
-  logInfo "Starting the restore of $1 at $3"
+  logInfo "Starting the restore of $1 at $3."
 
   $restic_path --repo "$1" --verbose restore "$2" --target "$3" --password-command="$passwordCommand"
 
-  echo -e
+  logInfo "Restore finished."
 }
 
 restore $repository $snapshotId $target

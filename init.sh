@@ -11,11 +11,11 @@ set -e # Abort if there is an issue with any build.
 . $(dirname "$0")/variables/main.sh
 
 init() {
-  logInfo "Initializing the backup of $1"
+  logInfo "Initializing the backup of $1."
 
   $restic_path --repo "$1" init --password-command="$passwordCommand"
 
-  echo -e
+  logInfo "Initializing finished."
 }
 
 init $repository

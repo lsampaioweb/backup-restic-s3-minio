@@ -16,9 +16,6 @@ exclude_file=$(dirname "$0")/files/excludes.txt
 # Get the current running OS.
 operating_system=$(uname -o)
 
-# The path where the Restic application is installed.
-restic_path="$(which restic)"
-
 # The type of the backup (local or minio). Default: minio
 repository_type=${1:-"minio"}
 

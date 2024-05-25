@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e # Abort if there is an issue with any build.
 
+. $(dirname "$0")/variables/macos.sh
+
 # Variables with the same content for MacOS and Ubuntu.
 # The URL of MinIO.
 minio_url="s3:https://api.edge-minio-01.homelab/"

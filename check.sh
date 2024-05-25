@@ -11,11 +11,11 @@ set -e # Abort if there is an issue with any build.
 . $(dirname "$0")/variables/main.sh
 
 check() {
-  logInfo "Starting the check of integrity of $1"
+  logInfo "Starting the check of integrity of $1."
 
   $restic_path --repo "$1" check --password-command="$passwordCommand"
 
-  echo -e
+  logInfo "Check finished."
 }
 
 check $repository

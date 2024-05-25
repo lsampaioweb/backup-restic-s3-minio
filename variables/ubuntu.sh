@@ -6,3 +6,6 @@ if test -z "$DBUS_SESSION_BUS_ADDRESS" ; then
   DBUS="$(grep -z DBUS_SESSION_BUS_ADDRESS /proc/$PID/environ | tr '\0' '\n' | sed -e 's/DBUS_SESSION_BUS_ADDRESS=//')"
   export DBUS_SESSION_BUS_ADDRESS=$DBUS
 fi
+
+# The path where the Restic application is installed.
+restic_path="$(which restic)"

@@ -11,11 +11,11 @@ set -e # Abort if there is an issue with any build.
 . $(dirname "$0")/variables/main.sh
 
 backup() {
-  logInfo "Starting the backup of $1"
+  logInfo "Starting the backup of $1."
 
   $restic_path --repo "$1" backup --verbose --tag "$2" --files-from="$files_from" --exclude-file="$exclude_file" --password-command="$passwordCommand"
 
-  echo -e
+  logInfo "Backup finished."
 }
 
 backup $repository "$(date +%B)"
