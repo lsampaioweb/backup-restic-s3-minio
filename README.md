@@ -39,7 +39,7 @@ Before using the script, make sure you have the following prerequisites installe
         - Replace `"/usr/local/bin/restic"` with the path in your OS.
 
     - `minio_url`: Set the URL of the MinIO server.
-        - Replace `"s3:https://api.edge-minio-01.homelab/"` with the URL of your MinIO.
+        - Replace `"s3:https://api.edge-minio-01.lan.homelab/"` with the URL of your MinIO.
 
     - `bucket_name`: Set the name of the S3 Bucket where your backups will be stored.
         - Replace `"macbook-luciano"` with the name of your MinIO S3 Bucket.

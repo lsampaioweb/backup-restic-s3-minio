@@ -5,7 +5,7 @@ set -e # Abort if there is an issue with any build.
 
 # Variables with the same content for MacOS and Ubuntu.
 # The URL of MinIO.
-minio_url="s3:https://api.edge-minio-01.homelab/"
+minio_url="s3:https://api.edge-minio-01.lan.homelab/"
 
 # The name of the Bucket.
 bucket_name="macbook-luciano"
