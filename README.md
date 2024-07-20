@@ -129,43 +129,49 @@ You can automate your backups by scheduling the backup script to run at specific
 
     ```bash
     <key>StartInterval</key>
-    # 3600 seconds = 1 hour
+    <!-- 3600 seconds = 1 hour -->
     <integer>3600</integer>
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Minute</key>
+        <!-- 0 minute mark of every hour -->
+        <integer>0</integer>
+    </dict>
     ```
 
 1. Copy the Property List File to the correct path:
 
     ```bash
-    cp MacOS/restic-backup-local.plist ~/Library/LaunchAgents/restic-backup-local.plist
-    cp MacOS/restic-backup-minio.plist ~/Library/LaunchAgents/restic-backup-minio.plist
+    cp MacOS/restic-backup-local-01.plist ~/Library/LaunchAgents/restic-backup-local-01.plist
+    cp MacOS/restic-backup-minio-01.plist ~/Library/LaunchAgents/restic-backup-minio-01.plist
     ```
 
 1. Load the Launch Agent:
 
     ```bash
-    launchctl load ~/Library/LaunchAgents/restic-backup-local.plist
-    launchctl load ~/Library/LaunchAgents/restic-backup-minio.plist
+    launchctl load ~/Library/LaunchAgents/restic-backup-local-01.plist
+    launchctl load ~/Library/LaunchAgents/restic-backup-minio-01.plist
     ```
 
 1. Start the Job:
 
     ```bash
-    launchctl start restic-backup-local
-    launchctl start restic-backup-minio
+    launchctl start restic-backup-local-01
+    launchctl start restic-backup-minio-01
     ```
 
 1. Unload the Launch Agent:
 
     ```bash
-    launchctl unload ~/Library/LaunchAgents/restic-backup-local.plist
-    launchctl unload ~/Library/LaunchAgents/restic-backup-minio.plist
+    launchctl unload ~/Library/LaunchAgents/restic-backup-local-01.plist
+    launchctl unload ~/Library/LaunchAgents/restic-backup-minio-01.plist
     ```
 
 1. Stop the Job:
 
     ```bash
-    launchctl stop restic-backup-local
-    launchctl stop restic-backup-minio
+    launchctl stop restic-backup-local-01
+    launchctl stop restic-backup-minio-01
     ```
 
 **Ubuntu:**

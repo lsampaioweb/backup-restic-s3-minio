@@ -3,19 +3,24 @@
 <plist version="1.0">
 <dict>
     <key>Label</key>
-    <string>restic-backup-local</string>
+    <string>restic-backup-minio</string>
     <key>ProgramArguments</key>
     <array>
         <string>/Users/lsampaio/Luciano/git/home/backup-restic-s3-minio/restic-backup.sh</string>
-        <string>local</string>
+        <string>minio</string>
     </array>
     <key>StandardOutPath</key>
-    <string>/Users/lsampaio/Luciano/git/home/backup-restic-s3-minio/logs/backup-local.log</string>
+    <string>/Users/lsampaio/Luciano/git/home/backup-restic-s3-minio/logs/backup-minio-01.log</string>
     <key>StandardErrorPath</key>
-    <string>/Users/lsampaio/Luciano/git/home/backup-restic-s3-minio/logs/backup-local.log</string>
+    <string>/Users/lsampaio/Luciano/git/home/backup-restic-s3-minio/logs/backup-minio-01.log</string>
     <key>RunAtLoad</key>
     <true/>
     <key>StartInterval</key>
     <integer>3600</integer> <!-- 3600 seconds = 1 hour -->
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Minute</key>
+        <integer>15</integer>
+    </dict>
 </dict>
 </plist>
