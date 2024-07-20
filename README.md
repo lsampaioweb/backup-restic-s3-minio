@@ -127,7 +127,7 @@ You can automate your backups by scheduling the backup script to run at specific
 
 **MacOS:**
 
-1. Edit the `MacOS/restic-backup-[local|minio].plist` file if you want to run the backup more or less frequently:
+1. Edit the `MacOS/restic-backup-[local|minio]-01.plist` file if you want to run the backup more or less frequently:
 
     ```bash
     <key>StartInterval</key>
