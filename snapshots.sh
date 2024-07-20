@@ -2,9 +2,8 @@
 set -e # Abort if there is an issue with any build.
 
 # Usage:
-# ./snapshots.sh
-# ./snapshots.sh local
-# ./snapshots.sh minio
+# ./snapshots.sh local <repository>
+# ./snapshots.sh minio <repository>
 
 # Load the file with the common variables.
 . $(dirname "$0")/lib/log.sh

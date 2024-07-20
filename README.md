@@ -103,10 +103,13 @@ Use the commands below to create password entries, customizing them according to
 
 The `init` script initializes the Restic repository. You only need to run this script once for each repository you create. To initialize the repository, execute the following command:
 
+The `<repository>` can be:
+  - local: `/Volumes/Backup-03/MacOS-Backup-Luciano`
+  - minio: `s3:https://api.edge-minio-01.lan.homelab/macbook-luciano`
+
 ```bash
-./init.sh
-./init.sh local
-./init.sh minio
+./init.sh local <repository>
+./init.sh minio <repository>
 ```
 
 ### 2. Backup
@@ -114,9 +117,8 @@ The `init` script initializes the Restic repository. You only need to run this s
 The `backup` script is used to create a backup snapshot of your specified source directory. You can run this script to regularly back up your data. Execute the following command to create a backup:
 
 ```bash
-./backup.sh
-./backup.sh local
-./backup.sh minio
+./backup.sh local <repository>
+./backup.sh minio <repository>
 ```
 
 ## Automating Backups with `launchd` or `Cron`
@@ -218,9 +220,8 @@ This repository includes a set of other Bash scripts as well. Each script is des
 The `check` script verifies the integrity of the Restic repository, ensuring that your backups are healthy and free from corruption. Use this script to perform repository checks. Run the following command to check your repository:
 
 ```bash
-./check.sh
-./check.sh local
-./check.sh minio
+./check.sh local <repository>
+./check.sh minio <repository>
 ```
 
 ### 2. Snapshots
@@ -228,9 +229,8 @@ The `check` script verifies the integrity of the Restic repository, ensuring tha
 The `snapshots` script provides a list of all available snapshots in your Restic repository. It allows you to view and manage your snapshots easily. To list your snapshots, use the following command:
 
 ```bash
-./snapshots.sh
-./snapshots.sh local
-./snapshots.sh minio
+./snapshots.sh local <repository>
+./snapshots.sh minio <repository>
 ```
 
 ### 3. Forget
@@ -238,9 +238,8 @@ The `snapshots` script provides a list of all available snapshots in your Restic
 The `forget` script is used to manage retention policies for your snapshots. You can use it to remove old snapshots and save storage space. To manage snapshots retention, execute the following command:
 
 ```bash
-./forget.sh
-./forget.sh local
-./forget.sh minio
+./forget.sh local <repository>
+./forget.sh minio <repository>
 ```
 
 ### 4. Restore
@@ -248,9 +247,8 @@ The `forget` script is used to manage retention policies for your snapshots. You
 The `restore` script is used to recover files and directories from a backup repository. You can use it to restore specific snapshots or specific files and directories within a snapshot. To perform a restore, execute the following command:
 
 ```bash
-./restore.sh
-./restore.sh local
-./restore.sh minio
+./restore.sh local <repository>
+./restore.sh minio <repository>
 ```
 
 These scripts provide a convenient way to interact with Restic and manage your backup processes. Customize and use them according to your specific backup needs.

@@ -8,6 +8,7 @@
     <array>
         <string>/Users/lsampaio/Luciano/git/home/backup-restic-s3-minio/restic-backup.sh</string>
         <string>local</string>
+        <string>/Volumes/Backup-02/MacOS-Backup-Luciano</string>
     </array>
     <key>StandardOutPath</key>
     <string>/Users/lsampaio/Luciano/git/home/backup-restic-s3-minio/logs/backup-local-02.log</string>

@@ -2,9 +2,8 @@
 set -e # Abort if there is an issue with any build.
 
 # Usage:
-# ./backup.sh
-# ./backup.sh local
-# ./backup.sh minio
+# ./backup.sh local <repository>
+# ./backup.sh minio <repository>
 
 # Load the file with the common variables.
 . $(dirname "$0")/lib/log.sh

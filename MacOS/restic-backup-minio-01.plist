@@ -8,6 +8,7 @@
     <array>
         <string>/Users/lsampaio/Luciano/git/home/backup-restic-s3-minio/restic-backup.sh</string>
         <string>minio</string>
+        <string>s3:https://api.edge-minio-01.lan.homelab/macbook-luciano</string>
     </array>
     <key>StandardOutPath</key>
     <string>/Users/lsampaio/Luciano/git/home/backup-restic-s3-minio/logs/backup-minio-01.log</string>

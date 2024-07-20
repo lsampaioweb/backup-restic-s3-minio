@@ -3,16 +3,6 @@ set -e # Abort if there is an issue with any build.
 
 . $(dirname "$0")/variables/macos.sh
 
-# Variables with the same content for MacOS and Ubuntu.
-# The URL of MinIO.
-minio_url="s3:https://api.edge-minio-01.lan.homelab/"
-
-# The name of the Bucket.
-bucket_name="macbook-luciano"
-
-# The address of the Bucket.
-repository="${minio_url}${bucket_name}"
-
 # The password of the repository.
 passwordCommand="/usr/bin/security find-generic-password -a $USER -s 'edge-minio-01-restic-backup' -w"
 
