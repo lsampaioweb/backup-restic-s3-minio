@@ -28,13 +28,13 @@ repository=$2
 keep_monthly=24
 
 # The last n weeks which have one or more snapshots, keep only the most recent one for each week.
-keep_weekly=5
+keep_weekly=4
 
 # The last n days which have one or more snapshots, keep only the most recent one for each day.
-keep_daily=15
+keep_daily=30
 
 # The last n hours which have one or more snapshots, keep only the most recent one for each hour.
-keep_hourly=16
+keep_hourly=24
 
 # Variables with specific content for MacOS or Ubuntu.
 if [ $operating_system == "Darwin" ]; then
