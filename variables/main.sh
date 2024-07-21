@@ -5,16 +5,7 @@ set -e # Abort if there is an issue with any build.
 DEBUG=false
 
 # The number of CPU cores to use. The default is "all".
-export GOMAXPROCS=2
-
-# The file that contains the folders to include in the backup.
-files_from=$(dirname "$0")/files/includes.txt
-
-# The file that contains the folders to exclude from the backup.
-exclude_file=$(dirname "$0")/files/excludes.txt
-
-# Get the current running OS.
-operating_system=$(uname -o)
+export GOMAXPROCS=1
 
 # The type of the backup (local or minio).
 repository_type=$1
@@ -36,11 +27,26 @@ keep_daily=30
 # The last n hours which have one or more snapshots, keep only the most recent one for each hour.
 keep_hourly=24
 
-# Variables with specific content for MacOS or Ubuntu.
-if [ $operating_system == "Darwin" ]; then
-  . $(dirname "$0")/variables/macos-$repository_type.sh
+# Get the current running OS type.
+operating_system_type=$(uname -o)
 
-elif [ $operating_system == "GNU/Linux" ]; then
-  . $(dirname "$0")/variables/ubuntu-$repository_type.sh
+# Get the current running OS.
+operating_system=""
+
+# Variables with specific content for MacOS or Ubuntu.
+if [ $operating_system_type == "Darwin" ]; then
+  operating_system="macos"
+
+elif [ $operating_system_type == "GNU/Linux" ]; then
+  operating_system="ubuntu"
 
 fi
+
+# The file that contains the folders to include in the backup.
+files_from=$(dirname "$0")/files/${operating_system}/includes.txt
+
+# The file that contains the folders to exclude from the backup.
+exclude_file=$(dirname "$0")/files/${operating_system}/excludes.txt
+
+# Load the variables based on the operating system.
+. $(dirname "$0")/variables/${operating_system}-$repository_type.sh
