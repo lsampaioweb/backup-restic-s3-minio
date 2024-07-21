@@ -168,18 +168,18 @@ You can automate your backups by scheduling the backup script to run at specific
     launchctl list | grep restic-backup
     ```
 
-1. Unload the Launch Agent:
-
-    ```bash
-    launchctl unload ~/Library/LaunchAgents/restic-backup-local-01.plist
-    launchctl unload ~/Library/LaunchAgents/restic-backup-minio-01.plist
-    ```
-
 1. Stop the Job:
 
     ```bash
     launchctl stop restic-backup-local-01
     launchctl stop restic-backup-minio-01
+    ```
+
+1. Unload the Launch Agent:
+
+    ```bash
+    launchctl unload ~/Library/LaunchAgents/restic-backup-local-01.plist
+    launchctl unload ~/Library/LaunchAgents/restic-backup-minio-01.plist
     ```
 
 **Ubuntu:**
