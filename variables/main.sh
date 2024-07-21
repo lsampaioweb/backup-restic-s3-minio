@@ -5,7 +5,7 @@ set -e # Abort if there is an issue with any build.
 DEBUG=false
 
 # The number of CPU cores to use. The default is "all".
-export GOMAXPROCS=1
+export GOMAXPROCS=2
 
 # The file that contains the folders to include in the backup.
 files_from=$(dirname "$0")/files/includes.txt
