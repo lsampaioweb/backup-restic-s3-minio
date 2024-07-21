@@ -162,6 +162,12 @@ You can automate your backups by scheduling the backup script to run at specific
     launchctl start restic-backup-minio-01
     ```
 
+1. List the running jobs:
+
+    ```bash
+    launchctl list | grep restic-backup
+    ```
+
 1. Unload the Launch Agent:
 
     ```bash
