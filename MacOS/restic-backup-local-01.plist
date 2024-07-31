@@ -15,7 +15,7 @@
     <key>StandardErrorPath</key>
     <string>/Users/lsampaio/Luciano/git/home/backup-restic-s3-minio/logs/backup-local-01.log</string>
     <key>RunAtLoad</key>
-    <true/>
+    <false/>
     <key>StartInterval</key>
     <integer>3600</integer> <!-- 3600 seconds = 1 hour -->
     <key>StartCalendarInterval</key>

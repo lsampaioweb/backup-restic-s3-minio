@@ -17,7 +17,7 @@
     <key>RunAtLoad</key>
     <false/>
     <key>StartInterval</key>
-    <integer>3600</integer> <!-- 3600 seconds = 1 hour -->
+    <integer>7200</integer> <!-- 7200 seconds = 2 hours -->
     <key>StartCalendarInterval</key>
     <dict>
         <key>Minute</key>
