@@ -145,6 +145,7 @@ You can automate your backups by scheduling the backup script to run at specific
 
     ```bash
     cp MacOS/restic-backup-local-01.plist ~/Library/LaunchAgents/restic-backup-local-01.plist
+    cp MacOS/restic-backup-local-02.plist ~/Library/LaunchAgents/restic-backup-local-02.plist
     cp MacOS/restic-backup-minio-01.plist ~/Library/LaunchAgents/restic-backup-minio-01.plist
     ```
 
@@ -152,6 +153,7 @@ You can automate your backups by scheduling the backup script to run at specific
 
     ```bash
     launchctl load ~/Library/LaunchAgents/restic-backup-local-01.plist
+    launchctl load ~/Library/LaunchAgents/restic-backup-local-02.plist
     launchctl load ~/Library/LaunchAgents/restic-backup-minio-01.plist
     ```
 
@@ -159,6 +161,7 @@ You can automate your backups by scheduling the backup script to run at specific
 
     ```bash
     launchctl start restic-backup-local-01
+    launchctl start restic-backup-local-02
     launchctl start restic-backup-minio-01
     ```
 
@@ -172,6 +175,7 @@ You can automate your backups by scheduling the backup script to run at specific
 
     ```bash
     launchctl stop restic-backup-local-01
+    launchctl stop restic-backup-local-02
     launchctl stop restic-backup-minio-01
     ```
 
@@ -179,6 +183,7 @@ You can automate your backups by scheduling the backup script to run at specific
 
     ```bash
     launchctl unload ~/Library/LaunchAgents/restic-backup-local-01.plist
+    launchctl unload ~/Library/LaunchAgents/restic-backup-local-02.plist
     launchctl unload ~/Library/LaunchAgents/restic-backup-minio-01.plist
     ```
 
