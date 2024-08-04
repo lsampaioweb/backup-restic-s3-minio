@@ -144,24 +144,24 @@ You can automate your backups by scheduling the backup script to run at specific
 1. Copy the Property List File to the correct path:
 
     ```bash
-    cp MacOS/restic-backup-local-01.plist ~/Library/LaunchAgents/restic-backup-local-01.plist
     cp MacOS/restic-backup-local-02.plist ~/Library/LaunchAgents/restic-backup-local-02.plist
+    cp MacOS/restic-backup-local-03.plist ~/Library/LaunchAgents/restic-backup-local-03.plist
     cp MacOS/restic-backup-minio-01.plist ~/Library/LaunchAgents/restic-backup-minio-01.plist
     ```
 
 1. Load the Launch Agent:
 
     ```bash
-    launchctl load ~/Library/LaunchAgents/restic-backup-local-01.plist
     launchctl load ~/Library/LaunchAgents/restic-backup-local-02.plist
+    launchctl load ~/Library/LaunchAgents/restic-backup-local-03.plist
     launchctl load ~/Library/LaunchAgents/restic-backup-minio-01.plist
     ```
 
 1. Start the Job:
 
     ```bash
-    launchctl start restic-backup-local-01
     launchctl start restic-backup-local-02
+    launchctl start restic-backup-local-03
     launchctl start restic-backup-minio-01
     ```
 
@@ -174,16 +174,16 @@ You can automate your backups by scheduling the backup script to run at specific
 1. Stop the Job:
 
     ```bash
-    launchctl stop restic-backup-local-01
     launchctl stop restic-backup-local-02
+    launchctl stop restic-backup-local-03
     launchctl stop restic-backup-minio-01
     ```
 
 1. Unload the Launch Agent:
 
     ```bash
-    launchctl unload ~/Library/LaunchAgents/restic-backup-local-01.plist
     launchctl unload ~/Library/LaunchAgents/restic-backup-local-02.plist
+    launchctl unload ~/Library/LaunchAgents/restic-backup-local-03.plist
     launchctl unload ~/Library/LaunchAgents/restic-backup-minio-01.plist
     ```
 
