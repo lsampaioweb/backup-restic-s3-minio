@@ -1,0 +1,6 @@
+/home/luciano.souza/.local/share/keyrings
+/home/luciano.souza/.local/share/remmina
+/home/luciano.souza/Desktop
+/home/luciano.souza/Downloads
+/home/luciano.souza/Luciano
+/home/luciano.souza/git
