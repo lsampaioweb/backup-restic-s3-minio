@@ -26,19 +26,7 @@
       </dict>
       <dict>
         <key>Hour</key>
-        <integer>2</integer>
-        <key>Minute</key>
-        <integer>0</integer>
-      </dict>
-      <dict>
-        <key>Hour</key>
         <integer>4</integer>
-        <key>Minute</key>
-        <integer>0</integer>
-      </dict>
-      <dict>
-        <key>Hour</key>
-        <integer>6</integer>
         <key>Minute</key>
         <integer>0</integer>
       </dict>
@@ -50,19 +38,7 @@
       </dict>
       <dict>
         <key>Hour</key>
-        <integer>10</integer>
-        <key>Minute</key>
-        <integer>0</integer>
-      </dict>
-      <dict>
-        <key>Hour</key>
         <integer>12</integer>
-        <key>Minute</key>
-        <integer>0</integer>
-      </dict>
-      <dict>
-        <key>Hour</key>
-        <integer>14</integer>
         <key>Minute</key>
         <integer>0</integer>
       </dict>
@@ -74,19 +50,7 @@
       </dict>
       <dict>
         <key>Hour</key>
-        <integer>18</integer>
-        <key>Minute</key>
-        <integer>0</integer>
-      </dict>
-      <dict>
-        <key>Hour</key>
         <integer>20</integer>
-        <key>Minute</key>
-        <integer>0</integer>
-      </dict>
-      <dict>
-        <key>Hour</key>
-        <integer>22</integer>
         <key>Minute</key>
         <integer>0</integer>
       </dict>
