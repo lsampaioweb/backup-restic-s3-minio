@@ -3,16 +3,6 @@ set -e # Abort if there is an issue with any build.
 
 . $(dirname "$0")/variables/ubuntu.sh
 
-# Variables with the same content for MacOS and Ubuntu.
-# The URL of MinIO.
-minio_url="s3:https://api.edge-minio-01.lan.homelab/"
-
-# The name of the Bucket.
-bucket_name="ubuntu-desktop"
-
-# The address of the Bucket.
-repository="${minio_url}${bucket_name}"
-
 # The password of the repository.
 passwordCommand="secret-tool lookup password 'edge-minio-01-restic-backup'"
 

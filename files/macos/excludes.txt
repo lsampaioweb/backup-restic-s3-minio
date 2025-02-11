@@ -27,3 +27,5 @@
 **/.ssh/*_id_*
 **/.ssh/known_hosts
 *.iso
+~/Library/*
+~/Library/Developer/Xcode/DerivedData/*

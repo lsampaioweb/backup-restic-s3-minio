@@ -10,9 +10,13 @@ export GOMAXPROCS=1
 # The type of the backup (local or minio).
 repository_type=$1
 
-# The Restic repository.
+# The Restic repository for MacOs.
 # local: "/Volumes/Backup-03/MacOS-Backup-Luciano"
 # minio: "s3:https://api.edge-minio-01.lan.homelab/macbook-luciano"
+
+# The Restic repository for Ubuntu.
+# local: "/media/luciano.souza/Luciano/Backup"
+# minio: "s3:https://api.storage.lan.homelab/ubuntu-desktop"
 repository=$2
 
 # The last n months which have one or more snapshots, keep only the most recent one for each month.

@@ -203,7 +203,7 @@ You can automate your backups by scheduling the backup script to run at specific
 
     ```bash
     # Run the backup every hour.
-    0 * * * * /path/to/restic-backup.sh local >> /path/to/backup.log 2>&1
+    0 * * * * /path/to/restic-backup.sh local <repository> >> /path/to/backup.log 2>&1
     ```
 
    Make sure to replace `/path/to/restic-backup.sh` with the actual path to your backup script.
