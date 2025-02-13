@@ -12,6 +12,7 @@ set -e # Abort if there is an issue with any build.
 backup() {
   logInfo "Starting the backup of $1."
 
+  # --limit-upload 5000 -o s3.connections=2
   $restic_path --repo "$1" backup --verbose --tag "$2" --files-from="$files_from" --exclude-file="$exclude_file" --password-command="$passwordCommand"
 
   logInfo "Backup finished."

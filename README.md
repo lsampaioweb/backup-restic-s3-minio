@@ -33,30 +33,33 @@ Before using the script, make sure you have the following prerequisites installe
     chmod u+x restic-backup.sh
     ```
 
-1. Open the file (`Mac: MacOS/variables.sh` or `Ubuntu: Ubuntu/variables.sh`) in a text editor and customize the following variables of the script to match your configuration:
+    Customize these variables to match your specific MinIO and system configuration.
+
+1. Open the file (`Mac: variables/main.sh`) in a text editor and customize the following variables of the script to match your configuration:
+
+    - `GOMAXPROCS`: Set the number of CPU cores Restic should use.
+        - The default is `1`, but you can adjust it as needed based on your system's resources.
+
+1. Open the file (`Mac: variables/macos.sh` or `Ubuntu: variables/ubuntu.sh`) in a text editor and customize the following variables of the script to match your configuration:
 
     - `restic_path`: Set the path where the Restic application is installed.
         - Replace `"/usr/local/bin/restic"` with the path in your OS.
 
-    - `minio_url`: Set the URL of the MinIO server.
-        - Replace `"s3:https://api.edge-minio-01.lan.homelab/"` with the URL of your MinIO.
+1. Open the file (`Mac: variables/macos-local.sh` or `Ubuntu: variables/ubuntu-local.sh`) in a text editor and customize the following variables of the script to match your configuration:
 
-    - `bucket_name`: Set the name of the S3 Bucket where your backups will be stored.
-        - Replace `"macbook-luciano"` with the name of your MinIO S3 Bucket.
+    - `passwordCommand`: Specify the command to retrieve the password for the repository.
+        - Customize this command to match how you store your repository password. More in the next section.
+
+1. Open the file (`Mac: variables/macos-minio.sh` or `Ubuntu: variables/ubuntu-minio.sh`) in a text editor and customize the following variables of the script to match your configuration:
 
     - `passwordCommand`: Specify the command to retrieve the password for the repository.
         - Customize this command to match how you store your repository password. More in the next section.
 
     - `AWS_ACCESS_KEY_ID`: This variable is used to configure Restic with the access key for connecting to MinIO.
-        - Replace `edge-minio-01-restic-backup-access-key-id` with the name you used on your Keychain.
+        - Replace `restic-backup-access-key-id` with the name you used on your Keychain.
 
     - `AWS_SECRET_ACCESS_KEY`: This variable is used to configure Restic with the secret access key for connecting to MinIO.
-        - Replace `edge-minio-01-restic-backup-secret-access-key` with the name you used on your Keychain.
-
-    - `GOMAXPROCS`: Set the number of CPU cores Restic should use.
-        - The default is `1`, but you can adjust it as needed based on your system's resources.
-
-    Customize these variables to match your specific MinIO and system configuration.
+        - Replace `restic-backup-secret-access-key` with the name you used on your Keychain.
 
 ## Save Your Passwords
 
@@ -66,35 +69,43 @@ Use the commands below to create password entries, customizing them according to
 
 **MacOS:**
 
+- Local
+    ```bash
+    # The password of the repository.
+    security add-generic-password -a $USER -U -s "restic-backup-local-password" -j "restic-backup-local-password" -w
+    ```
+
 - Minio
 
     ```bash
-    security add-generic-password -a $USER -U -s "edge-minio-01-restic-backup" -j "edge-minio-01-restic-backup" -w
+    # The password of the repository.
+    security add-generic-password -a $USER -U -s "restic-backup-password" -j "restic-backup-password" -w
 
-    security add-generic-password -a $USER -U -s "edge-minio-01-restic-backup-access-key-id" -j "edge-minio-01-restic-backup-access-key-id" -w
+    # The "ID" that Restic will use to connect to MinIO.
+    security add-generic-password -a $USER -U -s "restic-backup-access-key-id" -j "restic-backup-access-key-id" -w
 
-    security add-generic-password -a $USER -U -s "edge-minio-01-restic-backup-secret-access-key" -j "edge-minio-01-restic-backup-secret-access-key" -w
-    ```
-
-- Local
-    ```bash
-    security add-generic-password -a $USER -U -s "restic-backup-macos-local" -j "restic-backup-macos-local" -w
+    # The "Password" that Restic will use to connect to MinIO.
+    security add-generic-password -a $USER -U -s "restic-backup-secret-access-key" -j "restic-backup-secret-access-key" -w
     ```
 
 **Ubuntu:**
 
-- Minio
-    ```bash
-    secret-tool store --label="edge-minio-01-restic-backup" password edge-minio-01-restic-backup
-
-    secret-tool store --label="edge-minio-01-restic-backup-access-key-id" password edge-minio-01-restic-backup-access-key-id
-
-    secret-tool store --label="edge-minio-01-restic-backup-secret-access-key" password edge-minio-01-restic-backup-secret-access-key
-    ```
-
 - Local
     ```bash
-    secret-tool store --label="restic-password" password restic-password
+    # The password of the repository.
+    secret-tool store --label="restic-backup-local-password" password restic-backup-local-password
+    ```
+
+- Minio
+    ```bash
+    # The password of the repository.
+    secret-tool store --label="restic-backup-password" password restic-backup-password
+
+    # The "ID" that Restic will use to connect to MinIO.
+    secret-tool store --label="restic-backup-access-key-id" password restic-backup-access-key-id
+
+    # The "Password" that Restic will use to connect to MinIO.
+    secret-tool store --label="restic-backup-secret-access-key" password restic-backup-secret-access-key
     ```
 
 ## Usage
@@ -258,8 +269,8 @@ The `forget` script is used to manage retention policies for your snapshots. You
 The `restore` script is used to recover files and directories from a backup repository. You can use it to restore specific snapshots or specific files and directories within a snapshot. To perform a restore, execute the following command:
 
 ```bash
-./restore.sh local <repository>
-./restore.sh minio <repository>
+./restore.sh local <repository> [snapshotId] [target]
+./restore.sh minio <repository> [snapshotId] [target]
 ```
 
 These scripts provide a convenient way to interact with Restic and manage your backup processes. Customize and use them according to your specific backup needs.
