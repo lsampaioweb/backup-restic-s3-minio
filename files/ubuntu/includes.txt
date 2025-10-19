@@ -1,6 +1,14 @@
+/home/luciano.souza/.bash_history
+/home/luciano.souza/.bashrc
+/home/luciano.souza/.config/Code/User/settings.json
+/home/luciano.souza/.docker/config.json
+/home/luciano.souza/.gitconfig
 /home/luciano.souza/.local/share/keyrings
 /home/luciano.souza/.local/share/remmina
+/home/luciano.souza/.m2/settings.xml
+/home/luciano.souza/.nuget/NuGet
 /home/luciano.souza/Desktop
+/home/luciano.souza/Documents
 /home/luciano.souza/Downloads
 /home/luciano.souza/Luciano
 /home/luciano.souza/git
