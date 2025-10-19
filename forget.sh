@@ -14,8 +14,6 @@ forget() {
 
   $restic_path --repo "$1" forget --keep-monthly $keep_monthly --keep-weekly $keep_weekly --keep-daily $keep_daily --keep-hourly $keep_hourly --password-command="$passwordCommand"
 
-  $restic_path --repo "$1" prune --password-command="$passwordCommand"
-
   logInfo "Clean up finished."
 }
 
