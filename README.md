@@ -112,7 +112,7 @@ Use the commands below to create password entries, customizing them according to
 
 ### 1. Init
 
-The `init` script initializes the Restic repository. You only need to run this script once for each repository you create. To initialize the repository, execute the following command:
+The `init` script initializes the Restic repository. You only need to run this script once for each repository you create. To initialize a repository, execute the command with the appropriate type (`local` or `minio`) and the full path or URL to the repository.
 
 The `<repository>` can be:
   - local: `/Volumes/Backup-03/MacOS-Backup-Luciano`
@@ -215,6 +215,8 @@ You can automate your backups by scheduling the backup script to run at specific
     ```bash
     # Run the backup every hour.
     0 * * * * /path/to/restic-backup.sh local <repository> >> /path/to/backup.log 2>&1
+    # Run the backup every hour on business hours on weekdays.
+    0 8-18 * * 1-5 /media/luciano.souza/Luciano/script/restic/restic-backup.sh local /media/luciano.souza/Luciano/Backup >> /media/luciano.souza/Luciano/backup.log 2>&1
     ```
 
    Make sure to replace `/path/to/restic-backup.sh` with the actual path to your backup script.
