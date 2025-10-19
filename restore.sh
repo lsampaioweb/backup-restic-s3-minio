@@ -18,7 +18,7 @@ target=${4:-"/tmp/$USER/backup"}
 restore() {
   logInfo "Starting the restore of $1 at $3."
 
-  $restic_path --repo "$1" --verbose restore "$2" --target "$3" --password-command="$passwordCommand"
+  $restic_path --repo "$1" restore "$2" --target "$3" --password-command="$passwordCommand" --verbose
 
   logInfo "Restore finished."
 }
