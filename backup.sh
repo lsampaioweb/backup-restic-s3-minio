@@ -12,8 +12,11 @@ set -e # Abort if there is an issue with any build.
 backup() {
   logInfo "Starting the backup of $1."
 
-  # --limit-upload 5000 -o s3.connections=2
-  $restic_path --repo "$1" backup --verbose --tag "$2" --files-from="$files_from" --exclude-file="$exclude_file" --password-command="$passwordCommand"
+  # Use full power of the machine.
+  $restic_path --repo "$1" backup --tag "$2" --files-from="$files_from" --exclude-file="$exclude_file" --password-command="$passwordCommand" --verbose
+
+  # Use this command if you have a cheap or old disk to reduce I/O stress.
+  # $restic_path --repo "$1" backup --tag "$2" --files-from="$files_from" --exclude-file="$exclude_file" --password-command="$passwordCommand" --verbose --limit-upload 5000 -o s3.connections=2
 
   logInfo "Backup finished."
 }
