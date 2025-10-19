@@ -6,3 +6,4 @@
 
 # Ignore the log files.
 logs/*
+backup.log
