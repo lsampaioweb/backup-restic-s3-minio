@@ -4,6 +4,7 @@
 *.pyc
 *.bak
 *.iso
+*.deb
 ~/.cache
 ~/.local/share/Trash
 /var/log/*
