@@ -1,22 +1,22 @@
-# Restic Backup to MinIO S3 Bucket on Macbook Pro or Ubuntu.
+# Restic Backup to a MinIO S3 Bucket on macOS or Ubuntu
 
-This guide explains how to use a Bash script to automate backups on a Macbook Pro and an Ubuntu, securely storing them in an S3 Bucket hosted on MinIO using Restic. Restic is a fast, secure, and efficient backup program, and MinIO is a high-performance, distributed object storage server.
+This guide explains how to use these Bash scripts to automate backups on macOS and Ubuntu, storing data in a MinIO-hosted S3 bucket with Restic. Restic is a fast, secure, and efficient backup program, and MinIO is a high-performance distributed object storage server.
 
 ## Prerequisites
 
 Before using the script, make sure you have the following prerequisites installed and configured:
 
-1. **Restic**: Install Restic on your machine. You can download it from the [official website](https://restic.net/) or use any packet manager.
+1. **Restic**: Install Restic on your machine. You can download it from the [official website](https://restic.net/) or use any package manager.
 
-    - MacOS
-    ```bash
-    brew install restic
-    ```
+    - macOS
+      ```bash
+      brew install restic
+      ```
 
     - Ubuntu
-    ```bash
-    apt install -y restic
-    ```
+      ```bash
+      apt install -y restic
+      ```
 
 1. **MinIO Client (mc)**: Install MinIO Client (mc) to manage MinIO resources. You can download it from the [MinIO website](https://min.io/download). Configure `mc` with your MinIO server information.
 
@@ -35,22 +35,29 @@ Before using the script, make sure you have the following prerequisites installe
 
     Customize these variables to match your specific MinIO and system configuration.
 
-1. Open the file (`Mac: variables/main.sh`) in a text editor and customize the following variables of the script to match your configuration:
+    The scripts load `variables/main.sh` first and then load the OS-specific file that matches the repository type you pass in the command:
+
+    - `local` on macOS: `variables/macos-local.sh`
+    - `minio` on macOS: `variables/macos-minio.sh`
+    - `local` on Ubuntu: `variables/ubuntu-local.sh`
+    - `minio` on Ubuntu: `variables/ubuntu-minio.sh`
+
+1. Open the file (`variables/main.sh`) in a text editor and customize the following variables of the script to match your configuration:
 
     - `GOMAXPROCS`: Set the number of CPU cores Restic should use.
         - The default is `1`, but you can adjust it as needed based on your system's resources.
 
-1. Open the file (`Mac: variables/macos.sh` or `Ubuntu: variables/ubuntu.sh`) in a text editor and customize the following variables of the script to match your configuration:
+1. Open the file (`macOS: variables/macos.sh` or `Ubuntu: variables/ubuntu.sh`) in a text editor and customize the following variables of the script to match your configuration:
 
     - `restic_path`: Set the path where the Restic application is installed.
         - Replace `"/usr/local/bin/restic"` with the path in your OS.
 
-1. Open the file (`Mac: variables/macos-local.sh` or `Ubuntu: variables/ubuntu-local.sh`) in a text editor and customize the following variables of the script to match your configuration:
+1. Open the file (`macOS: variables/macos-local.sh` or `Ubuntu: variables/ubuntu-local.sh`) in a text editor and customize the following variables of the script to match your configuration:
 
     - `passwordCommand`: Specify the command to retrieve the password for the repository.
         - Customize this command to match how you store your repository password. More in the next section.
 
-1. Open the file (`Mac: variables/macos-minio.sh` or `Ubuntu: variables/ubuntu-minio.sh`) in a text editor and customize the following variables of the script to match your configuration:
+1. Open the file (`macOS: variables/macos-minio.sh` or `Ubuntu: variables/ubuntu-minio.sh`) in a text editor and customize the following variables of the script to match your configuration:
 
     - `passwordCommand`: Specify the command to retrieve the password for the repository.
         - Customize this command to match how you store your repository password. More in the next section.
@@ -67,7 +74,7 @@ To enhance security, it is advisable not to store passwords in plaintext files o
 
 Use the commands below to create password entries, customizing them according to your needs:
 
-**MacOS:**
+**macOS:**
 
 - Local
     ```bash
@@ -75,7 +82,7 @@ Use the commands below to create password entries, customizing them according to
     security add-generic-password -a $USER -U -s "restic-backup-local-password" -j "restic-backup-local-password" -w
     ```
 
-- Minio
+- MinIO
 
     ```bash
     # The password of the repository.
@@ -93,19 +100,19 @@ Use the commands below to create password entries, customizing them according to
 - Local
     ```bash
     # The password of the repository.
-    secret-tool store --label="restic-backup-local-password" password restic-backup-local-password
+    secret-tool store --label="restic-backup-local-password" secret restic-backup-local-password
     ```
 
-- Minio
+- MinIO
     ```bash
     # The password of the repository.
-    secret-tool store --label="restic-backup-password" password restic-backup-password
+    secret-tool store --label="restic-backup-password" secret restic-backup-password
 
     # The "ID" that Restic will use to connect to MinIO.
-    secret-tool store --label="restic-backup-access-key-id" password restic-backup-access-key-id
+    secret-tool store --label="restic-backup-access-key-id" secret restic-backup-access-key-id
 
     # The "Password" that Restic will use to connect to MinIO.
-    secret-tool store --label="restic-backup-secret-access-key" password restic-backup-secret-access-key
+    secret-tool store --label="restic-backup-secret-access-key" secret restic-backup-secret-access-key
     ```
 
 ## Usage
@@ -115,7 +122,7 @@ Use the commands below to create password entries, customizing them according to
 The `init` script initializes the Restic repository. You only need to run this script once for each repository you create. To initialize a repository, execute the command with the appropriate type (`local` or `minio`) and the full path or URL to the repository.
 
 The `<repository>` can be:
-  - local: `/Volumes/Backup-03/MacOS-Backup-Luciano`
+  - local: `/Volumes/Backup-03/macOS-Backup-Luciano`
   - minio: `s3:https://api.edge-minio-01.lan.homelab/macbook-luciano`
 
 ```bash
@@ -132,13 +139,29 @@ The `backup` script is used to create a backup snapshot of your specified source
 ./backup.sh minio <repository>
 ```
 
-## Automating Backups with `launchd` or `Cron`
+### 3. Full Backup Routine
 
-You can automate your backups by scheduling the backup script to run at specific intervals using the `launchd` or `Cron` service. This ensures that your files are regularly backed up without manual intervention. To set up a job to run the backup script every hour, follow these steps:
+The `restic-backup` script is the main workflow for regular runs. It executes the following steps in sequence:
 
-**MacOS:**
+1. `backup.sh`
+1. `forget.sh`
+1. `prune.sh`
+1. `check.sh`
 
-1. Edit the `MacOS/restic-backup-[local|minio]-01.plist` file if you want to run the backup more or less frequently:
+Use it when you want to run the full backup and maintenance routine in one command:
+
+```bash
+./restic-backup.sh local <repository>
+./restic-backup.sh minio <repository>
+```
+
+## Automating Backups with `launchd` or `cron`
+
+You can automate your backups by scheduling the `restic-backup.sh` script to run at specific intervals using `launchd` or `cron`. This ensures that your files are regularly backed up and that the maintenance steps run without manual intervention. To set up a job to run the full routine every hour, follow these steps:
+
+**macOS:**
+
+1. Edit the `MacOS/restic-backup-[local|minio]-01.plist` file if you want to run the full routine more or less frequently:
 
     ```bash
     <key>StartInterval</key>
@@ -210,16 +233,9 @@ You can automate your backups by scheduling the backup script to run at specific
 
 1. This will open the crontab configuration in the default text editor. If prompted, choose your preferred text editor (e.g., nano, vim, or another).
 
-1. Add the following line to the crontab file to run the backup script every hour:
+1. Add the following line to the crontab file to run the full routine every hour:
 
-    ```bash
-    # Run the backup every hour.
-    0 * * * * /path/to/restic-backup.sh local <repository> >> /path/to/backup.log 2>&1
-    # Run the backup every hour on business hours on weekdays.
-    0 8-18 * * 1-5 /media/luciano.souza/Luciano/script/restic/restic-backup.sh local /media/luciano.souza/Luciano/Backup >> /media/luciano.souza/Luciano/backup.log 2>&1
-    ```
-
-   Make sure to replace `/path/to/restic-backup.sh` with the actual path to your backup script.
+    Make sure to replace `/path/to/restic-backup.sh` with the actual path to your script.
 
    - `0` in the first position represents the minute (0-59).
    - `*` in the second position represents the hour (0-23).
@@ -227,13 +243,20 @@ You can automate your backups by scheduling the backup script to run at specific
    - `*` in the fourth position represents the month (1-12).
    - `*` in the fifth position represents the day of the week (0-6, where both 0 and 6 represent Sunday).
 
+    ```bash
+    # Run the full backup routine every hour.
+    0 * * * * /path/to/restic-backup.sh local <repository> >> /path/to/backup.log 2>&1
+    # Run the full backup routine during business hours on weekdays.
+    0 8-18 * * 1-5 /media/luciano.souza/Luciano/script/restic/restic-backup.sh local /media/luciano.souza/Luciano/Backup >> /media/luciano.souza/Luciano/backup.log 2>&1
+    ```
+
 1. Save and exit the text editor. The cron job is now set up.
 
-1. The cron service will automatically run your backup script every hour.
+1. The cron service will automatically run your script every hour.
 
 **Note**: Ensure that the script has execute permissions, as mentioned in the previous sections of this README.
 
-Remember to adjust the cron schedule to your specific needs. If you want to run the backup more or less frequently, you can modify the cron expression accordingly. That's it! Your backup script will now run automatically every hour as scheduled.
+Remember to adjust the cron schedule to your specific needs. If you want to run the routine more or less frequently, you can modify the cron expression accordingly. That's it! Your script will now run automatically every hour as scheduled.
 
 # Other Restic Bash Scripts
 
@@ -266,16 +289,43 @@ The `forget` script is used to manage retention policies for your snapshots. You
 ./forget.sh minio <repository>
 ```
 
-### 4. Restore
+### 4. Prune
+
+The `prune` script removes unneeded data from the repository after old snapshots have been forgotten. Run it when you want to reclaim repository space:
+
+```bash
+./prune.sh local <repository>
+./prune.sh minio <repository>
+```
+
+### 5. Restore
 
 The `restore` script is used to recover files and directories from a backup repository. You can use it to restore specific snapshots or specific files and directories within a snapshot. To perform a restore, execute the following command:
+
+If `snapshotId` is not provided, the script restores the `latest` snapshot. If `target` is not provided, the default restore directory is `/tmp/$USER/backup`.
 
 ```bash
 ./restore.sh local <repository> [snapshotId] [target]
 ./restore.sh minio <repository> [snapshotId] [target]
 ```
 
-These scripts provide a convenient way to interact with Restic and manage your backup processes. Customize and use them according to your specific backup needs.
+### 6. Unlock
+
+The `unlock` script removes stale locks from the repository. Use it if a previous Restic operation was interrupted and left the repository locked:
+
+```bash
+./unlock.sh local <repository>
+./unlock.sh minio <repository>
+```
+
+### 7. Copy
+
+The `copy` script copies snapshots from one repository to another. It expects a destination repository first and a source repository second:
+
+```bash
+./copy.sh local <destination-repository> <source-repository>
+./copy.sh minio <destination-repository> <source-repository>
+```
 
 ## Troubleshooting
 
