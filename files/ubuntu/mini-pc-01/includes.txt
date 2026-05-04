@@ -1,0 +1,14 @@
+/home/lsampaio/.bash_history
+/home/lsampaio/.bashrc
+/home/lsampaio/.config/Code/User
+#/home/lsampaio/.docker/config.json
+/home/lsampaio/.gitconfig
+/home/lsampaio/.local/share/keyrings
+/home/lsampaio/.local/share/remmina
+#/home/lsampaio/.m2/settings.xml
+/home/lsampaio/Desktop
+/home/lsampaio/Documents
+/home/lsampaio/Downloads
+/home/lsampaio/Luciano
+/home/lsampaio/Pictures
+/home/lsampaio/ProgramasRFB
