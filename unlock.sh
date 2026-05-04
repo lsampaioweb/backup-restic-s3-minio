@@ -2,8 +2,8 @@
 set -e # Abort if there is an issue with any build.
 
 # Usage:
-# ./unlock.sh local <repository>
-# ./unlock.sh minio <repository>
+# ./unlock.sh local <repository> [machine-name]
+# ./unlock.sh minio <repository> [machine-name]
 
 # Load the file with the common variables.
 . $(dirname "$0")/lib/log.sh

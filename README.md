@@ -79,7 +79,7 @@ Use the commands below to create password entries, customizing them according to
 - Local
     ```bash
     # The password of the repository.
-    security add-generic-password -a $USER -U -s "restic-backup-local-password" -j "restic-backup-local-password" -w
+    security add-generic-password -a $USER -U -s "restic_backup_local" -j "restic_backup_local" -w
     ```
 
 - MinIO
@@ -100,7 +100,7 @@ Use the commands below to create password entries, customizing them according to
 - Local
     ```bash
     # The password of the repository.
-    secret-tool store --label="restic-backup-local-password" secret restic-backup-local-password
+    secret-tool store --label="restic_backup_local" secret restic_backup_local
     ```
 
 - MinIO
@@ -121,13 +121,15 @@ Use the commands below to create password entries, customizing them according to
 
 The `init` script initializes the Restic repository. You only need to run this script once for each repository you create. To initialize a repository, execute the command with the appropriate type (`local` or `minio`) and the full path or URL to the repository.
 
+You can also pass an optional third argument (`[machine-name]`). When this argument is not provided, the scripts use the machine hostname (`hostname -s`) and, if there is no machine-specific include/exclude pair, they fall back to the default OS files.
+
 The `<repository>` can be:
   - local: `/Volumes/Backup-03/macOS-Backup-Luciano`
   - minio: `s3:https://api.edge-minio-01.lan.homelab/macbook-luciano`
 
 ```bash
-./init.sh local <repository>
-./init.sh minio <repository>
+./init.sh local <repository> [machine-name]
+./init.sh minio <repository> [machine-name]
 ```
 
 ### 2. Backup
@@ -135,8 +137,8 @@ The `<repository>` can be:
 The `backup` script is used to create a backup snapshot of your specified source directory. You can run this script to regularly back up your data. Execute the following command to create a backup:
 
 ```bash
-./backup.sh local <repository>
-./backup.sh minio <repository>
+./backup.sh local <repository> [machine-name]
+./backup.sh minio <repository> [machine-name]
 ```
 
 ### 3. Full Backup Routine
@@ -151,8 +153,8 @@ The `restic-backup` script is the main workflow for regular runs. It executes th
 Use it when you want to run the full backup and maintenance routine in one command:
 
 ```bash
-./restic-backup.sh local <repository>
-./restic-backup.sh minio <repository>
+./restic-backup.sh local <repository> [machine-name]
+./restic-backup.sh minio <repository> [machine-name]
 ```
 
 ## Automating Backups with `launchd` or `cron`
@@ -246,6 +248,8 @@ You can automate your backups by scheduling the `restic-backup.sh` script to run
     ```bash
     # Run the full backup routine every hour.
     0 * * * * /path/to/restic-backup.sh local <repository> >> /path/to/backup.log 2>&1
+    # Same as above, explicitly using a machine profile.
+    0 * * * * /path/to/restic-backup.sh local <repository> mini-pc-01 >> /path/to/backup.log 2>&1
     # Run the full backup routine during business hours on weekdays.
     0 8-18 * * 1-5 /media/luciano.souza/Luciano/script/restic/restic-backup.sh local /media/luciano.souza/Luciano/Backup >> /media/luciano.souza/Luciano/backup.log 2>&1
     ```
@@ -267,8 +271,8 @@ This repository includes a set of other Bash scripts as well. Each script is des
 The `check` script verifies the integrity of the Restic repository, ensuring that your backups are healthy and free from corruption. Use this script to perform repository checks. Run the following command to check your repository:
 
 ```bash
-./check.sh local <repository>
-./check.sh minio <repository>
+./check.sh local <repository> [machine-name]
+./check.sh minio <repository> [machine-name]
 ```
 
 ### 2. Snapshots
@@ -276,8 +280,8 @@ The `check` script verifies the integrity of the Restic repository, ensuring tha
 The `snapshots` script provides a list of all available snapshots in your Restic repository. It allows you to view and manage your snapshots easily. To list your snapshots, use the following command:
 
 ```bash
-./snapshots.sh local <repository>
-./snapshots.sh minio <repository>
+./snapshots.sh local <repository> [machine-name]
+./snapshots.sh minio <repository> [machine-name]
 ```
 
 ### 3. Forget
@@ -285,8 +289,8 @@ The `snapshots` script provides a list of all available snapshots in your Restic
 The `forget` script is used to manage retention policies for your snapshots. You can use it to remove old snapshots and save storage space. To manage snapshots retention, execute the following command:
 
 ```bash
-./forget.sh local <repository>
-./forget.sh minio <repository>
+./forget.sh local <repository> [machine-name]
+./forget.sh minio <repository> [machine-name]
 ```
 
 ### 4. Prune
@@ -294,8 +298,8 @@ The `forget` script is used to manage retention policies for your snapshots. You
 The `prune` script removes unneeded data from the repository after old snapshots have been forgotten. Run it when you want to reclaim repository space:
 
 ```bash
-./prune.sh local <repository>
-./prune.sh minio <repository>
+./prune.sh local <repository> [machine-name]
+./prune.sh minio <repository> [machine-name]
 ```
 
 ### 5. Restore
@@ -305,8 +309,8 @@ The `restore` script is used to recover files and directories from a backup repo
 If `snapshotId` is not provided, the script restores the `latest` snapshot. If `target` is not provided, the default restore directory is `/tmp/$USER/backup`.
 
 ```bash
-./restore.sh local <repository> [snapshotId] [target]
-./restore.sh minio <repository> [snapshotId] [target]
+./restore.sh local <repository> [machine-name] [snapshotId] [target]
+./restore.sh minio <repository> [machine-name] [snapshotId] [target]
 ```
 
 ### 6. Unlock
@@ -314,8 +318,8 @@ If `snapshotId` is not provided, the script restores the `latest` snapshot. If `
 The `unlock` script removes stale locks from the repository. Use it if a previous Restic operation was interrupted and left the repository locked:
 
 ```bash
-./unlock.sh local <repository>
-./unlock.sh minio <repository>
+./unlock.sh local <repository> [machine-name]
+./unlock.sh minio <repository> [machine-name]
 ```
 
 ### 7. Copy
@@ -323,8 +327,8 @@ The `unlock` script removes stale locks from the repository. Use it if a previou
 The `copy` script copies snapshots from one repository to another. It expects a destination repository first and a source repository second:
 
 ```bash
-./copy.sh local <destination-repository> <source-repository>
-./copy.sh minio <destination-repository> <source-repository>
+./copy.sh local <destination-repository> [machine-name] <source-repository>
+./copy.sh minio <destination-repository> [machine-name] <source-repository>
 ```
 
 ## Troubleshooting

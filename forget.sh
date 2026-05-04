@@ -2,8 +2,8 @@
 set -e # Abort if there is an issue with any build.
 
 # Usage:
-# ./forget.sh local <repository>
-# ./forget.sh minio <repository>
+# ./forget.sh local <repository> [machine-name]
+# ./forget.sh minio <repository> [machine-name]
 
 # Load the file with the common variables.
 . $(dirname "$0")/lib/log.sh

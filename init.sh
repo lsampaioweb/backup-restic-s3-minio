@@ -2,8 +2,8 @@
 set -e # Abort if there is an issue with any build.
 
 # Usage:
-# ./init.sh local <repository>
-# ./init.sh minio <repository>
+# ./init.sh local <repository> [machine-name]
+# ./init.sh minio <repository> [machine-name]
 
 # Load the file with the common variables.
 . $(dirname "$0")/lib/log.sh

@@ -2,8 +2,8 @@
 set -e # Abort if there is an issue with any build.
 
 # Usage:
-# ./check.sh local <repository>
-# ./check.sh minio <repository>
+# ./check.sh local <repository> [machine-name]
+# ./check.sh minio <repository> [machine-name]
 
 # Load the file with the common variables.
 . $(dirname "$0")/lib/log.sh

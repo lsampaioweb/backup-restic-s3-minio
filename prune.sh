@@ -2,8 +2,8 @@
 set -e # Abort if there is an issue with any build.
 
 # Usage:
-# ./prune.sh local <repository>
-# ./prune.sh minio <repository>
+# ./prune.sh local <repository> [machine-name]
+# ./prune.sh minio <repository> [machine-name]
 
 # Load the file with the common variables.
 . $(dirname "$0")/lib/log.sh
