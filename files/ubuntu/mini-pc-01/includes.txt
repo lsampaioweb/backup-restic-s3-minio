@@ -1,6 +1,7 @@
 /home/lsampaio/.bash_history
 /home/lsampaio/.bashrc
-/home/lsampaio/.config/Code/User
+/home/lsampaio/.config/Code/User/settings.json
+/home/lsampaio/.config/Code/User/keybindings.json
 #/home/lsampaio/.docker/config.json
 /home/lsampaio/.gitconfig
 /home/lsampaio/.local/share/keyrings
